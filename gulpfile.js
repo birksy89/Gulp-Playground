@@ -8,6 +8,9 @@ var pug = require('gulp-pug');
 //Needed to save the pug file as a HTML
 var rename = require("gulp-rename");
 
+//Gulp Plumber
+var plumber = require('gulp-plumber');
+
 
 var browserSync = require('browser-sync').create();
 
@@ -16,7 +19,14 @@ gulp.task('hello', function() {
 });
 
 gulp.task('sass-task', function(){
+
   return gulp.src('app/scss/*.scss')
+  .pipe(plumber({
+      errorHandler: function (err) {
+          console.log(err);
+          this.emit('end');
+      }
+  }))
     .pipe(sass()) // Converts Sass to CSS with gulp-sass
     .pipe(gulp.dest('public/css'))
     .pipe(browserSync.reload({
@@ -27,6 +37,12 @@ gulp.task('sass-task', function(){
 
 gulp.task('pug-task', function buildHTML() {
   return gulp.src('app/pug/*.pug')
+  .pipe(plumber({
+        errorHandler: function (err) {
+            console.log(err);
+            this.emit('end');
+        }
+    }))
   .pipe(pug({
     // Your options in here.
   }))
