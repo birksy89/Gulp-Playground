@@ -17,6 +17,10 @@ var autoprefixer = require('gulp-autoprefixer');
 //Automatically refreshes the browser
 var browserSync = require('browser-sync').create();
 
+//Minify PNG, JPEG, GIF and SVG images
+var imagemin = require('gulp-imagemin');
+
+
 //Test Task
 gulp.task('hello', function() {
     console.log('Hello Andrew!');
@@ -64,18 +68,14 @@ gulp.task('pug-task', function buildHTML() {
         }))
 });
 
-//Automaticall run task
-gulp.task('watch', ['browserSync', 'pug-task', 'sass-task'], function() {
-    gulp.watch('app/scss/*.scss', ['sass-task']);
-    gulp.watch('app/pug/*.pug', ['pug-task']);
-
-    // Other watchers
-    // Reloads the browser whenever HTML or JS files change
-    //gulp.watch('app/css/*.css', browserSync.reload);
-    //gulp.watch('app/*.html', browserSync.reload);
-    //gulp.watch('app/js/*.js', browserSync.reload);
-})
-
+gulp.task('image-task', () =>
+    gulp.src('app/images/*')
+        .pipe(imagemin())
+        .pipe(gulp.dest('public/images'))
+        .pipe(browserSync.reload({
+            stream: true
+        }))
+);
 
 gulp.task('browserSync', function() {
     browserSync.init({
@@ -83,4 +83,20 @@ gulp.task('browserSync', function() {
             baseDir: 'public'
         },
     })
+})
+
+
+//Automaticall run task
+gulp.task('watch', ['browserSync', 'pug-task', 'sass-task', 'image-task'], function() {
+    gulp.watch('app/scss/*.scss', ['sass-task']);
+    gulp.watch('app/pug/*.pug', ['pug-task']);
+    gulp.watch('app/images/*', ['image-task']);
+
+
+
+    // Other watchers
+    // Reloads the browser whenever HTML or JS files change
+    //gulp.watch('app/css/*.css', browserSync.reload);
+    //gulp.watch('app/*.html', browserSync.reload);
+    //gulp.watch('app/js/*.js', browserSync.reload);
 })
