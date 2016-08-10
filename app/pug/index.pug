@@ -3,12 +3,29 @@ html
     link(href='/css/styles.css', rel='stylesheet')
   body
     .container
-      h1.title Sign up
-      h2.sub-title Create an account to access the full version with all the features.
+      .text-container
+        h1.title Sign up
+        h2.sub-title Create an account to access the full version with all the features.
 
-      .item
-        img(src="http://placehold.it/50x50")
-        h3.item-title What is your date of birth?
-        input
+        .item
+          img(src="/images/map.png")
+          h3.item-title What is your postcode?
+          input(placeholder="DL11 2PQ")(required="")
 
-      a.btn(href="/next") Next
+        .item
+          img(src="/images/house.png") 
+          h3.item-title What is your date of birth?
+          input(placeholder="DD/MM/YYYY")(required="")
+
+        .item
+          img(src="http://placehold.it/50x50")
+          h3.item-title What is your date of birth?
+          input(placeholder="DD/MM/YYYY")(required="")
+
+        .item
+          img(src="http://placehold.it/50x50")
+          h3.item-title What is your date of birth?
+          input(placeholder="DD/MM/YYYY")(required="")
+
+
+        a.btn(href="/next") Next
